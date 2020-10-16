@@ -14,35 +14,21 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                <%-- <Col span="6"> --%>
-                    <%-- <FormItem label="${column.cnname}" prop="${column.dataName}"> --%>
                     <dict-select v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
-                    <%-- </FormItem> --%>
-                <%-- </Col> --%>
                 <%}else {
                 %>
-                <%-- <Col span="6"> --%>
-                    <%-- <FormItem label="${column.cnname}" prop="${column.dataName}"> --%>
                     <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px; margin-bottom: 20px"></Input>
-                    <%-- </FormItem> --%>
-                <%-- </Col> --%>
             <%
                 }
             }
         %>
-			<%-- <Row> --%>
-				<%-- <Col span="4" offset="20"> --%>
-				<%-- <Form-item> --%>
-					<Button type="primary" @click="loadPageNoChange(1)" :loading="loading">	
-                        <Icon type="ios-search-outline"></Icon>查询
-                    </Button>
-				<%-- </Form-item> --%>
-			<%-- </Col> --%>
-			<%-- </Row> --%>
+            <Button type="primary" @click="loadPageNoChange(1)" :loading="loading">	
+                <Icon type="ios-search-outline"></Icon>查询
+            </Button>
 		</Form>
 
-		<%-- <add v-on:refreshList="loadData()"></add>
-		<edit ref="editModal" v-on:refreshList="loadData()"></edit> --%>
+		<add v-on:refreshList="loadData()"></add>
+		<edit ref="editModal" v-on:refreshList="loadData()"></edit>
 
 		<Table border :columns="columns" :data="queryResult.dataList" :loading="loading">
             <template slot-scope="{ row, index }" slot="operateSlot">
@@ -67,20 +53,20 @@
 	</div>
 </template>
 <script>
-    // import add from './add.vue'
-    // import edit from './edit.vue'
+    import add from './add.vue'
+    import edit from './edit.vue'
     import dictSelect from '@/components/molicode/DictSelect'
     import dictCheckbox from '@/components/molicode/DictCheckBox'
     import dictRadio from '@/components/molicode/DictRadio'
     import tableDefine from './tableDefine.js'
     import * as renderUtil from '@/libs/renderUtil.js'
-    // import requestUtils from '@/libs/axios.js'
+    import requestUtils from '@/libs/axios.js'
     import constants from '@/constants/constants'
 
     export default {
         components: {
-            // add,
-            // edit,
+            add,
+            edit,
             dictSelect,
             dictCheckbox,
             dictRadio
@@ -99,13 +85,13 @@
                 var _this = this
                 this.\$refs['formSearch'].validate((valid) => {
                     if (valid) {
-                        // var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
+                        var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
                         searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize;
                         searchParam['page'] = _this.queryResult.pageQuery.currentPageNo;
-                        // requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
-                        //     _this.queryResult.dataList = data.value
-                        //     _this.queryResult.pageQuery = data.pageQuery
-                        // }, null, true)
+                        requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
+                            _this.queryResult.dataList = data.value
+                            _this.queryResult.pageQuery = data.pageQuery
+                        }, null, true)
                     } else {
                         this.\$Message.error('Fail!')
                     }
@@ -121,13 +107,13 @@
                     title: '删除确认',
                     content: '您确定要执行删除操作吗？',
                     onOk: function() {
-                        // requestUtils.postSubmit(this, constants.urls.${urlPrefix}.delete, params, function (data) {
-                        //     _this.\$Message.success({
-                        //         content: '删除成功',
-                        //         duration: 3
-                        //     })
-                        //     _this.loadData();
-                        // })
+                        requestUtils.postSubmit(this, constants.urls.${urlPrefix}.delete, params, function (data) {
+                            _this.\$Message.success({
+                                content: '删除成功',
+                                duration: 3
+                            })
+                            _this.loadData();
+                        })
                     }
                 })
             }
