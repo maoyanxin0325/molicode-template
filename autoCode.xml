@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<autoMake
+        xmlns="http://molicode_repo.gitee.io/molicode_doc/schema/autoCode"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://molicode_repo.gitee.io/molicode_doc/schema/autoCode http://molicode_repo.gitee.io/molicode_doc/schema/autoCode/autoCode-1.0.xsd">
+    <moliCodeVersion>1.0.0</moliCodeVersion>
+
+
+    <mavenInfo>
+        <modelVersion>4.0.0</modelVersion>
+        <groupId>com.shareyi.molicode</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <artifactId>autocode-template-vue</artifactId>
+        <name>VUE+iview页面生成功能</name>
+        <description>
+            适配iview-admin相关组件，请参考地址：
+            https://github.com/cn2oo8/iview-admin/tree/d_20190525_clean_more
+
+            分支请使用：d_20190525_clean_more
+        </description>
+
+
+        <developers>
+            <developer>
+                <name>david</name>
+                <email>zsb1987@foxmail.com</email>
+                <organization>www.shareyi.com</organization>
+                <organizationUrl>www.shareyi.com</organizationUrl>
+            </developer>
+        </developers>
+    </mavenInfo>
+
+    <properties>
+        <!-- 代码片段配置文件，将部分公用的代码抽取出来放置到此处 -->
+        <property key="snippet.template.path">config/molicode/snippetTemplate.xml</property>
+        <!-- 用户自定义的配置文件，配置的值以文本方式直接可以在：extendConf.get("") 到-->
+        <property key="extend.text.config">config/molicode/extendConfig.xml</property>
+        <!-- 页面依赖资源配置文件（可支持requirejs和 普通引入）-->
+        <property key="pagerequire.map.config">config/molicode/requireConfig.xml</property>
+        <!-- 数据库类型到java类型映射-->
+        <property key="dbtype.javatype.map.config">config/molicode/db2javaTypeMap.xml</property>
+        <!-- 数据库类型到页面类型映射-->
+        <property key="dbtype.columntag.map.config">config/molicode/dbType2ColumnTagMap.xml</property>
+
+    </properties>
+
+    <templates>
+
+        <template id="addPage" name="add页面"
+                  destFile="/ui-starter/src/views/${PubUtils.packageToPath(config.category)}/${tableNameUtil.lowerCaseFirst(tableDefine.id)}/add.vue"
+                  templateFile="templates/vue/add.gsp">
+            <acceptDataModel>tableModel</acceptDataModel>
+        </template>
+        <template id="editPage" name="edit页面"
+                  destFile="/ui-starter/src/views/${PubUtils.packageToPath(config.category)}/${tableNameUtil.lowerCaseFirst(tableDefine.id)}/edit.vue"
+                  templateFile="templates/vue/edit.gsp">
+            <acceptDataModel>tableModel</acceptDataModel>
+        </template>
+        <template id="listPage" name="list页面"
+                  destFile="/ui-starter/src/views/${PubUtils.packageToPath(config.category)}/${tableNameUtil.lowerCaseFirst(tableDefine.id)}/list.vue"
+                  templateFile="templates/vue/list.gsp">
+            <acceptDataModel>tableModel</acceptDataModel>
+        </template>
+
+
+        <template id="tableDefineVue" name="tableDefineVue"
+                  destFile="/ui-starter/src/views/${PubUtils.packageToPath(config.category)}/${tableNameUtil.lowerCaseFirst(tableDefine.id)}/tableDefine.js"
+                  templateFile="templates/vue/tableDefine.gsp">
+            <acceptDataModel>tableModel</acceptDataModel>
+            <desc>表结构模型</desc>
+
+        </template>
+
+        <template id="config" name="config"
+                  destFile="/ui-starter/src/views/${PubUtils.packageToPath(config.category)}/${tableNameUtil.lowerCaseFirst(tableDefine.id)}/config.js"
+                  templateFile="templates/vue/config.gsp">
+            <acceptDataModel>tableModel</acceptDataModel>
+            <desc>一些配置信息，请复制到相关常量类使用</desc>
+        </template>
+    </templates>
+</autoMake>
