@@ -6,7 +6,6 @@
 %>
 <template>
 	<div>
-		<Form ref="formSearch" :model="formSearch" :rules="searchFormRules" :label-width="80">
         <%
             List<String> list=tableModel.getSearchKeyList();
             def listSize=list.size()
@@ -17,20 +16,20 @@
                     <dict-select v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
                 <%}else {
                 %>
-                    <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px; margin-bottom: 20px"></Input>
+                    <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;"></Input>
             <%
                 }
             }
         %>
-            <Button type="primary" @click="loadPageNoChange(1)" :loading="loading">	
-                <Icon type="ios-search-outline"></Icon>查询
+        <div style="display: inline-block">
+            <Button type="primary" @click="loadPageNoChange(1)" :loading="loading" style="margin-top: -20px">	
+                <Icon :size="18" type="ios-search-outline"></Icon>查询
             </Button>
-		</Form>
-
-		<add v-on:refreshList="loadData()"></add>
+            <add v-on:refreshList="loadData()"></add>
+        </div>
 		<edit ref="editModal" v-on:refreshList="loadData()"></edit>
 
-		<Table border :columns="columns" :data="queryResult.dataList" :loading="loading">
+		<Table border :columns="columns" :data="queryResult.dataList" :loading="loading" style="margin-top: 30px">
             <template slot-scope="{ row, index }" slot="operateSlot">
                 <Button type="primary" size="small" @click="editItem(row)">
                     <Icon type="edit"></Icon>
@@ -83,19 +82,13 @@
             },
             loadData() {
                 var _this = this
-                this.\$refs['formSearch'].validate((valid) => {
-                    if (valid) {
-                        var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
-                        searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize;
-                        searchParam['page'] = _this.queryResult.pageQuery.currentPageNo;
-                        requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
-                            _this.queryResult.dataList = data.value
-                            _this.queryResult.pageQuery = data.pageQuery
-                        }, null, true)
-                    } else {
-                        this.\$Message.error('Fail!')
-                    }
-                })
+                var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
+                searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize;
+                searchParam['page'] = _this.queryResult.pageQuery.currentPageNo;
+                requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
+                    _this.queryResult.dataList = data.value
+                    _this.queryResult.pageQuery = data.pageQuery
+                }, null, true)
             },
             editItem: function (item) {
                 this.\$refs.editModal.editItem(item)
