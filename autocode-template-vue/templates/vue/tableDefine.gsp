@@ -8,9 +8,9 @@
  */
 import * as renderUtil from '@/libs/renderUtil.js'
 import constants from '@/constants/constants'
-import dictLabel from '@/view/components/dict/DictLabel'
-import dictSelect from '@/view/components/dict/DictSelect'
-import dictCheckbox from '@/view/components/dict/DictCheckBox'
+import dictLabel from '@/components/molicode/DictLabel'
+import dictSelect from '@/components/molicode/DictSelect'
+import dictCheckbox from '@/components/molicode/DictCheckBox'
 
 const searchFormRules = {
 <%
@@ -22,7 +22,6 @@ const searchFormRules = {
     print "\t"+snippetTemplateUtil.getTemplate(column,'form_rule_item_vue');
     i++;
     if(i<listSize) println ',';
-
   }
 %>
 };
@@ -38,7 +37,6 @@ data() {
               if(tableModel.isNotInList('queryList',column.columnName)){
                 return
               }
-
               if("Select".equalsIgnoreCase(column.jspTag)) {%>
                 {
                   title: '${column.cnname}',
@@ -53,7 +51,7 @@ data() {
                      })
                   }
                 },
-             <%}else  if("datetime".equalsIgnoreCase(column.jspTag)) {%>
+             <%}else if("datetime".equalsIgnoreCase(column.jspTag)) {%>
                 {
                  title: '${column.cnname}',
                   key: '${column.dataName}',
@@ -69,7 +67,6 @@ data() {
                   width: 100
                 },
               <%}
-
             }
           %>
             {
@@ -91,19 +88,19 @@ data() {
             }
         },
         formSearch: {
-<%
-  list.eachWithIndex{ it,index ->
-      def column=tableDefine.getColumnByColumnName(it);
-      String dataName = column.dataName
-      String value = tableNameUtil.genTestDataQuote(column,dictMap)
-      print """\t\t\t"${dataName}": ${value}"""
-      if(index < list.size()-1){
-        println ","
-      }else{
-        println ""
-      }
-  }
-%>
+          <%
+            list.eachWithIndex{ it,index ->
+                def column=tableDefine.getColumnByColumnName(it);
+                String dataName = column.dataName
+                String value = tableNameUtil.genTestDataQuote(column,dictMap)
+                print """\t\t\t"${dataName}": ${value}"""
+                if(index < list.size()-1){
+                  println ","
+                }else{
+                  println ""
+                }
+            }
+          %>
         },
         searchFormRules: searchFormRules,
         constants
