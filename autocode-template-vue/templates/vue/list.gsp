@@ -12,9 +12,9 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                    <dict-select v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
+                    <dict-select v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
                 <%}else if("DateTime".equalsIgnoreCase(column.jspTag) ){%>
-                    <dict-date-picker v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}"></dict-date-picker>
+                    <dict-date-picker v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}"></dict-date-picker>
                 <%} else {%>
                     <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;" />
                 <%
