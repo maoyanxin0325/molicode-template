@@ -26,8 +26,8 @@
 
 		<Table border :columns="columns" :data="data.list" :loading="loading" style="margin-top: 30px">
             <template slot-scope="{ row, index }" slot="operateSlot">
-                <Button type="primary" size="small" @click="editItem(row)" style="margin-right: 10px">修改</Button>
-                <Button type="error" size="small" @click="doDelete(row)">删除</Button>
+                <Button type="primary" size="small" @click="edit(row)" style="margin-right: 10px">修改</Button>
+                <Button type="error" size="small" @click="del(row)">删除</Button>
             </template>
         </Table>
 		<div style="margin: 10px;overflow: hidden">
@@ -45,7 +45,7 @@
     import dictSelect from '@/components/molicode/DictSelect'
     import dictDatePicker from '@/components/molicode/DictDatePicker'
     import tableDefine from './tableDefine.js'
-    import requestUtils from '@/libs/axios.js'
+    import * as util from '@/libs/renderUtil.js'
     import constants from '@/constants/constants'
 
     export default {
@@ -85,10 +85,10 @@
                     this.data.pc = data.pageQuery
                 }, null, true)
             },
-            editItem: function (item) {
+            edit: function (item) {
                 this.\$refs.editModal.editItem(item)
             },
-            doDelete(row) {
+            del(row) {
                 let params = { 'primaryKey': row.id }
                 this.\$Modal.confirm({
                     title: '删除确认',

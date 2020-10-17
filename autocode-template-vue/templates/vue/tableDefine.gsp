@@ -41,7 +41,8 @@ let tableDefine = {
                 def column=it
                 if(tableModel.isNotInList('queryList',column.columnName)){
                   return
-                }if("Select".equalsIgnoreCase(column.jspTag)) {%>
+                } 
+                if("Select".equalsIgnoreCase(column.jspTag)) {%>
                   {
                     title: '${column.cnname}',
                     align: 'center',
@@ -55,7 +56,8 @@ let tableDefine = {
                           }
                       })
                     }
-                  },<%}else if("DateTime".equalsIgnoreCase(column.jspTag)) {%>
+                  },
+                  <%}else if("DateTime".equalsIgnoreCase(column.jspTag)) {%>
                   {
                     title: '${column.cnname}',
                     key: '${column.dataName}',
@@ -64,13 +66,15 @@ let tableDefine = {
                     render: (h, params) => {
                         return h('div', renderUtil.formatDateTime(params.row.${column.dataName}))
                     }
-                  },<%}else {%>
+                  },
+                  <%}else {%>
                   {
                     title: '${column.cnname}',
                     key: '${column.dataName}',
                     align: 'center',
                     minWidth: 100
-                  },<%}}%>
+                  },
+                  <%}}%>
                   {
                       title: '操作',
                       key: 'action',
@@ -109,7 +113,7 @@ let tableDefine = {
       }
   },
   mounted() {
-      this.loadData()
+      this.load()
   }
 }
 export default tableDefine
