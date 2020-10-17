@@ -41,8 +41,7 @@ let tableDefine = {
                 def column=it
                 if(tableModel.isNotInList('queryList',column.columnName)){
                   return
-                }
-                if("Select".equalsIgnoreCase(column.jspTag)) {%>
+                }if("Select".equalsIgnoreCase(column.jspTag)) {%>
                   {
                     title: '${column.cnname}',
                     align: 'center',
@@ -56,35 +55,30 @@ let tableDefine = {
                           }
                       })
                     }
-                  },
-              <%}else if("datetime".equalsIgnoreCase(column.jspTag)) {%>
+                  },<%}else if("DateTime".equalsIgnoreCase(column.jspTag)) {%>
                   {
-                  title: '${column.cnname}',
+                    title: '${column.cnname}',
                     key: '${column.dataName}',
                     align: 'center',
                     minWidth: 100,
                     render: (h, params) => {
                         return h('div', renderUtil.formatDateTime(params.row.${column.dataName}))
                     }
-                  },
-              <%}else {%>
-                {
+                  },<%}else {%>
+                  {
                     title: '${column.cnname}',
                     key: '${column.dataName}',
                     align: 'center',
                     minWidth: 100
-                  },
-                <%}
-              }
-            %>
-              {
-                  title: '操作',
-                  key: 'action',
-                  minWidth: 160,
-                  fixed: 'right',
-                  align: 'center',
-                  slot: 'operateSlot'
-              }
+                  },<%}}%>
+                  {
+                      title: '操作',
+                      key: 'action',
+                      minWidth: 160,
+                      fixed: 'right',
+                      align: 'center',
+                      slot: 'operateSlot'
+                  }
           ],
           queryResult: {
               dataList: [],

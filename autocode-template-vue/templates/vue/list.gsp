@@ -12,9 +12,10 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                    <dict-select v-model="formSearch.${column.dataName}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
-                <%}else {
-                %>
+                    <dict-select v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
+                <%}else if("DateTime".equalsIgnoreCase(column.jspTag) ){%>
+                    <dict-date-picker v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}"></dict-date-picker>
+                <%} else {%>
                     <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;" />
                 <%
                 }
@@ -55,6 +56,7 @@
     import edit from './edit.vue'
     import dictSelect from '@/components/molicode/DictSelect'
     import dictCheckbox from '@/components/molicode/DictCheckBox'
+    import dictDatePicker from '@/components/molicode/DictDatePicker'
     import dictRadio from '@/components/molicode/DictRadio'
     import tableDefine from './tableDefine.js'
     import requestUtils from '@/libs/axios.js'
@@ -66,6 +68,7 @@
             edit,
             dictSelect,
             dictCheckbox,
+            dictDatePicker,
             dictRadio
         },
         mixins: [tableDefine],
@@ -111,4 +114,3 @@
         }
     }
 </script>
-
