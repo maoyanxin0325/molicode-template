@@ -44,7 +44,7 @@
 
 <script>
     import constants from '@/constants/constants.js'
-    import requestUtils from '@/libs/requestUtils.js'
+    import requestUtils from '@/libs/axios.js'
     var _ = require('underscore')
     var validateSet = {
 <%
