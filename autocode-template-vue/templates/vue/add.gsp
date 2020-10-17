@@ -5,8 +5,10 @@
 %>
 <template>
 	<div class="add_molicode">
-		<Button type="primary"  @click="showModal = true"><Icon type="plus"></Icon> 新增 ${tableDefine.cnname}</Button>
-		<Modal class="addModal" v-model="showModal" :width="50" title="新增${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
+		<Button type="info"  @click="showModal = true">
+			<Icon :size="18" type="ios-add"></Icon>新增
+		</Button>
+		<Modal class="addModal" v-model="showModal" :width="40" title="新增${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
 			<Form ref="formItems" :model="formItems" :rules="formRules" :label-width="150" inline>
 			<% columns.each{
 				  def column=it;
@@ -58,7 +60,7 @@
 			if(i<listSize) println ',';
 		}
 		%>
-    };
+    }
 
     var formItems = {
 <%
@@ -75,10 +77,9 @@
 		    print """\t\t${column.dataName}: null"""
 		 	i++;
 			if(i<listSize) println ',';
-
 		}
 		%>
-    };
+    }
 
     export default {
         data () {
@@ -123,5 +124,4 @@
 		width: 80%;
 	}
 }
-
 </style>
