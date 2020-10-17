@@ -9,7 +9,7 @@
 			<Icon :size="18" type="ios-add"></Icon>新增
 		</Button>
 		<Modal class="addModal" v-model="showModal" :width="40" title="新增${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
-			<Form ref="formItems" :model="formItems" :rules="formRules" :label-width="150" inline>
+			<Form ref="formItems" :model="formData" :rules="formRules" :label-width="150" inline>
 			<% columns.each{
 				  def column=it;
 				  if(column.getIsPK()){
@@ -17,18 +17,14 @@
 				  }
 				  if(tableModel.isNotInList('addList',column.columnName)){
 					return ;
-				  }
-			%>
+				  }%>
 				<Row>
 					<Col span="24">
 					<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
-						<Input v-model="formItems.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
+						<Input v-model="formData.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
 					</Form-item>
 				</Col>
-				</Row>
-				<%
-				}
-				%>
+				</Row><%}%>
 			</Form>
 			<div slot="footer">
 				<Button type="default" @click="cancel">取消</Button>
@@ -41,7 +37,9 @@
 <script>
     import constants from '@/constants/constants.js'
     import requestUtils from '@/libs/axios.js'
-
+		import dictCheckbox from '@/components/molicode/DictCheckBox'
+		import dictRadio from '@/components/molicode/DictRadio'
+		import dictSelect from '@/components/molicode/DictSelect'
     var validateSet = {
 <%
 			def listSize=tableModel.listSize('addList');
@@ -61,8 +59,7 @@
 		}
 		%>
     }
-
-    var formItems = {
+    var formData = {
 <%
 		 	i=0;
 			columns.each{
@@ -82,9 +79,14 @@
     }
 
     export default {
+			  components: {
+					dictSelect,
+					dictRadio,
+					dictCheckbox
+				},
         data () {
             return {
-                formItems: formItems,
+                formData: formData,
                 formRules: validateSet,
                // formRules: constants.rules.${varDomainName}.add,
                 showModal: false,
@@ -92,14 +94,13 @@
                 disableInput: false
             }
         },
-
         methods:{
             save: function () {
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
                     return false
                 }
-                requestUtils.postSubmit(this, constants.urls.${urlPrefix}.add, this.formItems, function (data) {
+                requestUtils.postSubmit(this, constants.urls.${urlPrefix}.add, this.formData, function (data) {
                     this.\$Message.success({
                         content: '新增成功',
                         duration: 3
