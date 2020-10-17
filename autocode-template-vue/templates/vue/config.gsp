@@ -2,7 +2,6 @@
     def columns = tableDefine.columns
     def varDomainName = tableNameUtil.lowerCaseFirst(tableDefine.id)
     def urlPrefix = "/" + PubUtils.addStrBeforeSeparator(PubUtils.packageToPath(config.category), "/") + varDomainName
-
 %>
 /**
 * 此配置文件，请将请求urls放置到常量里面，方便使用。 如： src/constants/urls.js

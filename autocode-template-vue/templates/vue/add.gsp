@@ -12,19 +12,34 @@
 			<Form ref="formItems" :model="formData" :rules="formRules" :label-width="150" inline>
 			<% columns.each{
 				  def column=it;
-				  if(column.getIsPK()){
-					return ;
-				  }
-				  if(tableModel.isNotInList('addList',column.columnName)){
-					return ;
-				  }%>
-				<Row>
-					<Col span="24">
-					<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
-						<Input v-model="formData.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
-					</Form-item>
-				</Col>
-				</Row><%}%>
+				  if(column.getIsPK()){ return ;}
+				  if(tableModel.isNotInList('addList',column.columnName)){return ;}%>
+					<Row>
+						<Col span="24">
+							<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
+								<% if(column.jspTag == 'SELECT'){%>
+									<dict-select v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
+								<%} else if(column.jspTag == 'DATETIME'){%>
+									<dict-date-picker v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
+								<%} else if(column.jspTag == 'RADIO'){%>
+									 <RadioGroup v-model="formData.${column.dataName}">
+											<Radio label="apple">
+													<Icon type="logo-apple"></Icon>
+													<span>Apple</span>
+											</Radio>
+									</RadioGroup>
+								<%} else if(column.jspTag == 'CHECKBOX'){%>
+									<CheckboxGroup v-model="formData.${column.dataName}">
+											<Checkbox label="香蕉"></Checkbox>
+											<Checkbox label="苹果"></Checkbox>
+											<Checkbox label="西瓜"></Checkbox>
+									</CheckboxGroup>
+								<%} else {%>
+									<Input v-model="formData.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
+								<%}%>
+							</Form-item>
+						</Col>
+					</Row><%}%>
 			</Form>
 			<div slot="footer">
 				<Button type="default" @click="cancel">取消</Button>
@@ -77,7 +92,6 @@
 		}
 		%>
     }
-
     export default {
 			  components: {
 					dictSelect,

@@ -99,11 +99,7 @@ let tableDefine = {
                   def column=tableDefine.getColumnByColumnName(it);
                   String dataName = column.dataName
                   String value = tableNameUtil.genTestDataQuote(column,dictMap)
-                  if (dataName.indexOf('time') !== -1 || dataName.indexOf('Time') !== -1){
-                    print "'${dataName}': []"
-                  } else{
-                    print "'${dataName}': ''"
-                  }
+                  print "'${dataName}': ''"
                   if(index < list.size()-1){
                     println ","
                   }else{
