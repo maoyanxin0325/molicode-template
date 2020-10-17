@@ -9,20 +9,19 @@
         <%
             List<String> list=tableModel.getSearchKeyList();
             def listSize=list.size()
-            int i=0;
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
                     <dict-select v-model="formSearch.${column.dataName}" :placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
                 <%}else {
                 %>
-                    <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;"></Input>
-            <%
+                    <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;" />
+                <%
                 }
             }
         %>
         <div style="display: inline-block">
-            <Button type="primary" @click="loadPageNoChange(1)" :loading="loading" style="margin-top: -20px">	
+            <Button type="primary" @click="loadPageNoChange(1)" :loading="loading">	
                 <Icon :size="18" type="ios-search-outline"></Icon>查询
             </Button>
             <add v-on:refreshList="loadData()"></add>
@@ -58,7 +57,6 @@
     import dictCheckbox from '@/components/molicode/DictCheckBox'
     import dictRadio from '@/components/molicode/DictRadio'
     import tableDefine from './tableDefine.js'
-    import * as renderUtil from '@/libs/renderUtil.js'
     import requestUtils from '@/libs/axios.js'
     import constants from '@/constants/constants'
 
@@ -83,8 +81,8 @@
             loadData() {
                 var _this = this
                 var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
-                searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize;
-                searchParam['page'] = _this.queryResult.pageQuery.currentPageNo;
+                searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize
+                searchParam['page'] = _this.queryResult.pageQuery.currentPageNo
                 requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
                     _this.queryResult.dataList = data.value
                     _this.queryResult.pageQuery = data.pageQuery
@@ -94,7 +92,7 @@
                 this.\$refs.editModal.editItem(item)
             },
             doDelete(row) {
-                var _this = this;
+                var _this = this
                 var params = { 'primaryKey': row.id }
                 this.\$Modal.confirm({
                     title: '删除确认',
@@ -105,7 +103,7 @@
                                 content: '删除成功',
                                 duration: 3
                             })
-                            _this.loadData();
+                            _this.loadData()
                         })
                     }
                 })
@@ -113,3 +111,4 @@
         }
     }
 </script>
+

@@ -4,22 +4,15 @@
   def urlPrefix=PubUtils.addStrBeforeSeparator(PubUtils.packageToPath(config.category),".")+varDomainName
 %>
 <template>
-	<div>
+	<div class="add_molicode">
 		<Button type="primary"  @click="showModal = true"><Icon type="plus"></Icon> 新增 ${tableDefine.cnname}</Button>
-
-		<Modal v-model="showModal"
-			   title="新增${tableDefine.cnname}"
-			   @on-ok="save"
-			   @on-cancel="cancel">
-
-			<Form ref="formItems" :model="formItems" :rules="formRules"  :label-width="120" inline>
-
+		<Modal class="addModal" v-model="showModal" :width="50" title="新增${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
+			<Form ref="formItems" :model="formItems" :rules="formRules" :label-width="150" inline>
 			<% columns.each{
 				  def column=it;
 				  if(column.getIsPK()){
 					return ;
 				  }
-
 				  if(tableModel.isNotInList('addList',column.columnName)){
 					return ;
 				  }
@@ -40,13 +33,12 @@
 				<Button type="primary" @click="save" :loading="loading"><Icon type="android-done"></Icon> 保存</Button>
 			</div>
 		</Modal>
-
 	</div>
 </template>
 
 <script>
     import constants from '@/constants/constants.js'
-    import requestUtils from '@/request/requestUtils.js'
+    import requestUtils from '@/libs/axios.js'
 
     var validateSet = {
 <%
@@ -61,11 +53,9 @@
 			  	i++;
 				return ;
 			  }
-
 		    print "\t"+snippetTemplateUtil.getTemplate(column,'form_rule_item_vue');
 		 	i++;
 			if(i<listSize) println ',';
-
 		}
 		%>
     };
@@ -125,3 +115,13 @@
         }
     }
 </script>
+<style lang="less" scoped>
+.add_molicode {
+  display: inline-block;
+	margin-left: 20px;
+	.addModal {
+		width: 80%;
+	}
+}
+
+</style>

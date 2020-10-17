@@ -46,7 +46,7 @@ let tableDefine = {
                   {
                     title: '${column.cnname}',
                     align: 'center',
-                    width: 100,
+                    minWidth: 100,
                     render: (h, params) => {
                       return h(dictLabel, {
                           props: {
@@ -62,7 +62,7 @@ let tableDefine = {
                   title: '${column.cnname}',
                     key: '${column.dataName}',
                     align: 'center',
-                    width: 100,
+                    minWidth: 100,
                     render: (h, params) => {
                         return h('div', renderUtil.formatDateTime(params.row.${column.dataName}))
                     }
@@ -72,7 +72,7 @@ let tableDefine = {
                     title: '${column.cnname}',
                     key: '${column.dataName}',
                     align: 'center',
-                    width: 100
+                    minWidth: 100
                   },
                 <%}
               }
@@ -80,7 +80,7 @@ let tableDefine = {
               {
                   title: '操作',
                   key: 'action',
-                  width: 150,
+                  minWidth: 160,
                   fixed: 'right',
                   align: 'center',
                   slot: 'operateSlot'
@@ -101,7 +101,7 @@ let tableDefine = {
                   def column=tableDefine.getColumnByColumnName(it);
                   String dataName = column.dataName
                   String value = tableNameUtil.genTestDataQuote(column,dictMap)
-                  print """\t\t\t" ${dataName}": ${value}"""
+                  print """\t\t\t"${dataName}": """
                   if(index < list.size()-1){
                     println ","
                   }else{
