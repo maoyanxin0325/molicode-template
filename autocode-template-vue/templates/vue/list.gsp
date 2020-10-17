@@ -14,8 +14,9 @@
                     <dict-date-picker v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
                 <%} else {%>
                     <Input v-model="formSearch.${column.dataName}" placeholder="请输入${column.cnname}" style="width: 250px; margin-right: 20px;" />
-                <%}
-        }%>
+                <%}%>
+                <p>${column},${"Select".equalsIgnoreCase(column.jspTag)}</p>
+        <%}%>
         <div style="display: inline-block">
             <Button type="primary" @click="loadPageNoChange(1)" :loading="loading">	
                 <Icon :size="18" type="ios-search-outline"></Icon>查询

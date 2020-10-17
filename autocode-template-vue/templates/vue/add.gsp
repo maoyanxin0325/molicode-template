@@ -17,6 +17,7 @@
 					<Row>
 						<Col span="24">
 							<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
+								<p>${column}</p>
 								<% if(column.jspTag == 'SELECT'){%>
 									<dict-select v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
 								<%} else if(column.jspTag == 'DATETIME'){%>
