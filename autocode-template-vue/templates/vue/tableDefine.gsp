@@ -74,7 +74,7 @@ let tableDefine = {
                   {
                       title: '操作',
                       key: 'action',
-                      minWidth: 160,
+                      minWidth: 150,
                       fixed: 'right',
                       align: 'center',
                       slot: 'operateSlot'

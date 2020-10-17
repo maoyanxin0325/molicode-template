@@ -12,7 +12,7 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                    <dict-select v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" :kind="this.constants.dicts.dictKinds.${column.dictName}" :clearable="true"></dict-select>
+                    <dict-select v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
                 <%}else if("DateTime".equalsIgnoreCase(column.jspTag) ){%>
                     <dict-date-picker v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}"></dict-date-picker>
                 <%} else {%>
@@ -29,23 +29,16 @@
         </div>
 		<edit ref="editModal" v-on:refreshList="loadData()"></edit>
 
-		<Table border :columns="columns" :data="queryResult.dataList" :loading="loading" style="margin-top: 30px">
+		<Table border :columns="columns" :data="data.list" :loading="loading" style="margin-top: 30px">
             <template slot-scope="{ row, index }" slot="operateSlot">
-                <Button type="primary" size="small" @click="editItem(row)">
-                    <Icon type="edit"></Icon>
-                    修改
-                </Button>
-                <Button type="error" size="small" @click="doDelete(row)">
-                    <Icon type="trash-a"></Icon>
-                    删除
-                </Button>
+                <Button type="primary" size="small" @click="editItem(row)" style="margin-right: 10px">修改</Button>
+                <Button type="error" size="small" @click="doDelete(row)">删除</Button>
             </template>
         </Table>
-
 		<div style="margin: 10px;overflow: hidden">
 			<div style="float: right;">
-				<Page :total="queryResult.pageQuery.totalCount" :pageSize="queryResult.pageQuery.pageSize"
-					  :current="queryResult.pageQuery.currentPageNo" @on-page-size-change="loadPageSizeChange"
+				<Page :total="data.pc.totalCount" :pageSize="data.pc.pageSize"
+					  :current="data.pc.currentPageNo" @on-page-size-change="loadPageSizeChange"
 					  @on-change="loadPageNoChange" show-total show-elevator show-sizer></Page>
 			</div>
 		</div>
@@ -72,23 +65,31 @@
             dictRadio
         },
         mixins: [tableDefine],
+        data (){
+            return {
+                data: {
+                    list:[],
+                    pc:{}
+                }
+            }
+        }
         methods: {
             loadPageSizeChange(pageSize) {
-                this.queryResult.pageQuery.pageSize = pageSize
+                this.data.pc.pageSize = pageSize
                 this.loadData()
             },
             loadPageNoChange(pageNo) {
-                this.queryResult.pageQuery.currentPageNo = pageNo
+                this.data.pc.currentPageNo = pageNo
                 this.loadData()
             },
             loadData() {
                 var _this = this
                 var searchParam = requestUtils.serializeObject(this.formSearch, true, true)
-                searchParam['pageSize'] = _this.queryResult.pageQuery.pageSize
-                searchParam['page'] = _this.queryResult.pageQuery.currentPageNo
-                requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, function (data) {
-                    _this.queryResult.dataList = data.value
-                    _this.queryResult.pageQuery = data.pageQuery
+                searchParam['pageSize'] = _this.data.pc.pageSize
+                searchParam['page'] = _this.data.pc.currentPageNo
+                requestUtils.postSubmit(_this, constants.urls.${urlPrefix}.list, searchParam, (data) => {
+                    _this.data.list = data.value
+                    _this.data.pc = data.pageQuery
                 }, null, true)
             },
             editItem: function (item) {

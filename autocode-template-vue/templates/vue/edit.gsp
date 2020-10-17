@@ -5,20 +5,14 @@
 %>
 <template>
 	<div>
-		<Modal v-model="showModal"
-			   title="修改${tableDefine.cnname}"
-			   @on-ok="save"
-			   @on-cancel="cancel">
-			<Form ref="formItems" :model="formItems" :rules="formRules"  :label-width="120" inline>
-
+		<Modal v-model="showModal" :width="40" title="修改${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
+			<Form ref="formItems" :model="formItems" :rules="formRules" :label-width="150" inline>
                 <% columns.each{
                     def column=it;
-
                     if(tableModel.isNotInList('updateList',column.columnName)){
                         return ;
                     }
-                    if(column.getIsPK()){
-                %>
+                    if(column.getIsPK()){%>
                 <Row>
                     <Col span="24">
                     <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
@@ -26,9 +20,7 @@
                     </Form-item>
                 </Col>
                 </Row>
-                <%
-                    }else{
-                %>
+                <%}else{%>  
                 <Row>
                     <Col span="24">
                     <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
@@ -43,7 +35,7 @@
 			</Form>
 			<div slot="footer">
 				<Button type="default" @click="cancel">取消</Button>
-				<Button type="primary" @click="save" :loading="loading"><Icon type="android-done"></Icon> 保存</Button>
+				<Button type="primary" @click="save" :loading="loading">保存</Button>
 			</div>
 		</Modal>
 
@@ -52,9 +44,8 @@
 
 <script>
     import constants from '@/constants/constants.js'
-    import requestUtils from '@/request/requestUtils.js'
+    import requestUtils from '@/libs/requestUtils.js'
     var _ = require('underscore')
-
     var validateSet = {
 <%
 			def listSize=tableModel.listSize('updateList');
@@ -68,14 +59,11 @@
 			  	i++;
 				return ;
 			  }
-
 		    print "\t"+snippetTemplateUtil.getTemplate(column,'form_rule_item_vue');
 		 	i++;
 			if(i<listSize) println ',';
-
-		}
-		%>
-    };
+		}%>
+    }
     export default {
         data () {
             return {
@@ -87,14 +75,13 @@
                 disableInput: false
             }
         },
-
         methods:{
             save: function () {
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
                     return false
                 }
-                requestUtils.postSubmit(this, constants.urls.${urlPrefix}.update, this.formItems, function (data) {
+                requestUtils.postSubmit(this, constants.urls.${urlPrefix}.update, this.formItems, (data) => {
                     this.\$Message.success({
                         content: '修改成功',
                         duration: 3
