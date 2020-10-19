@@ -5,9 +5,6 @@
 %>
 <template>
 	<div class="add_molicode">
-		<Button type="info"  @click="showModal = true">
-			<Icon :size="18" type="ios-add"></Icon>新增
-		</Button>
 		<Modal class="addModal" v-model="showModal" :width="40" title="新增${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
 			<Form ref="formItems" :model="formData" :rules="formRules" :label-width="150" inline>
 			<% columns.each{
@@ -18,22 +15,13 @@
 						<Col span="24">
 							<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
 								<% if(column.jspTag == 'SELECT'){%>
-									<dict-select v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
+									<dict-select v-model="formData.${column.dataName}" :selectList="selectList" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
 								<%} else if(column.jspTag == 'DATETIME'){%>
 									<dict-date-picker v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
 								<%} else if(column.jspTag == 'RADIO'){%>
-									 <RadioGroup v-model="formData.${column.dataName}">
-											<Radio label="apple">
-													<Icon type="logo-apple"></Icon>
-													<span>Apple</span>
-											</Radio>
-									</RadioGroup>
+									<dict-radio v-model="formData.${column.dataName}" :radioList="radioList"></dict-radio>
 								<%} else if(column.jspTag == 'CHECKBOX'){%>
-									<CheckboxGroup v-model="formData.${column.dataName}">
-											<Checkbox label="香蕉"></Checkbox>
-											<Checkbox label="苹果"></Checkbox>
-											<Checkbox label="西瓜"></Checkbox>
-									</CheckboxGroup>
+									<dict-checkbox v-model="formData.${column.dataName}" :checkboxList="checkboxList"></dict-checkbox>
 								<%} else {%>
 									<Input v-model="formData.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
 								<%}%>
@@ -50,11 +38,11 @@
 </template>
 
 <script>
-    import constants from '@/constants/constants.js'
-    import requestUtils from '@/libs/axios.js'
 		import dictCheckbox from '@/components/molicode/DictCheckBox'
 		import dictRadio from '@/components/molicode/DictRadio'
 		import dictSelect from '@/components/molicode/DictSelect'
+		import dictDatePicker from '@/components/molicode/DictDatePicker'
+		import * as dictionary from '@/api/dictionary'
     var validateSet = {
 <%
 			def listSize=tableModel.listSize('addList');
@@ -96,38 +84,78 @@
 			  components: {
 					dictSelect,
 					dictRadio,
-					dictCheckbox
+					dictCheckbox,
+					dictDatePicker
 				},
         data () {
             return {
+								id: '0',
                 formData: formData,
                 formRules: validateSet,
                // formRules: constants.rules.${varDomainName}.add,
                 showModal: false,
                 loading: false,
-                disableInput: false
+								disableInput: false,
+								selectList: [],
+								radioList: [],
+								checkboxList: []
             }
         },
         methods:{
-            save: function () {
+						load (id) {
+							this.loadSelect()
+							// edit
+							if (id) {
+								this.id = id
+								// api.getId({ id: id}).then(res => {
+								// 	if(res.data.success){
+								// 		this.formData = res.data.data
+								// 	}
+								// })
+							}
+							// add
+							else {
+								this.formData = formData
+							}
+						},
+						// Select || Radio || Checkbox
+						loadSelect () {
+							dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
+								if (res.data.code === 200) {
+									let array = []
+									res.data.rows.map(item => {
+										array.push({
+											value: item.dictValue,
+											label: item.dictLabel
+										})
+									})
+									this.selectList = array
+									this.checkboxList = array
+									this.radioList = array
+								}
+							})
+						},
+            save () {
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
-                    return false
-                }
-                requestUtils.postSubmit(this, constants.urls.${urlPrefix}.add, this.formData, function (data) {
-                    this.\$Message.success({
-                        content: '新增成功',
-                        duration: 3
-                    })
-                    this.showModal = false
-                    this.\$emit(constants.actions.common.refreshList)
-                })
-            })
+											this.$Message.warning('请完善表单信息')
+                    	return false
+                		} else {
+											// requestUtils.postSubmit(this, constants.urls.${urlPrefix}.add, this.formData, function (data) {
+											// 		this.\$Message.success('保存成功~')
+											// 		this.showModal = false
+											// 		this.\$emit(constants.actions.common.refreshList)
+											// })
+										}
+								})
             },
-            'cancel': function () {
-                this.\$refs['formItems'].resetFields()
-                this.showModal = false
-            }
+						cancel () {
+							this.$refs['formItems'].resetFields()
+							this.showModal = false
+						},
+						dateChange (params) {
+							Object.assign(this.formData, params)
+						}
         }
     }
 </script>

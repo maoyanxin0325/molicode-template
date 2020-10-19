@@ -4,8 +4,8 @@
   def urlPrefix=PubUtils.addStrBeforeSeparator(PubUtils.packageToPath(config.category),".")+varDomainName
 %>
 <template>
-	<div>
-		<Modal v-model="showModal" :width="40" title="修改${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
+	<div class="edit_molicode">
+		<Modal class="addModal" v-model="showModal" :width="40" title="修改${tableDefine.cnname}" @on-ok="save" @on-cancel="cancel">
 			<Form ref="formItems" :model="formItems" :rules="formRules" :label-width="150" inline>
                 <% columns.each{
                     def column=it;
@@ -105,3 +105,13 @@
         }
     }
 </script>
+<style lang="less" scoped>
+.edit_molicode {
+  display: inline-block;
+	margin-left: 20px;
+	.addModal {
+		width: 80%;
+	}
+}
+</style>
+
