@@ -143,7 +143,7 @@
 								})
             },
 						cancel () {
-							this.$refs['formItems'].resetFields()
+							this.\$refs['formItems'].resetFields()
 							this.showModal = false
 						},
 						dateChange (params) {

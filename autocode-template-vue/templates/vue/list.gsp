@@ -9,7 +9,7 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                    <dict-select v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
+                    <dict-select v-model="formSearch.${column.dataName}" :selectList="selectList" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
                 <%} else if ("DateTime".equalsIgnoreCase(column.jspTag) ){%>
                     <dict-date-picker v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
                 <%} else {%>
@@ -95,12 +95,12 @@
                 })
             },
             add () {
-                this.$refs.editModal.showModal = true
-                this.$refs.editModal.load()
+                this.\$refs.editModal.showModal = true
+                this.\$refs.editModal.load()
             },
             edit (row) {
-                this.$refs.editModal.showModal = true
-                this.$refs.editModal.load(row.id)
+                this.\$refs.editModal.showModal = true
+                this.\$refs.editModal.load(row.id)
             },
             del (row) {
                 let params = { 'primaryKey': row.id }
