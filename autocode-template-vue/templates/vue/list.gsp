@@ -9,7 +9,8 @@
             list.each{
                 def column=tableDefine.getColumnByColumnName(it);
                 if("Select".equalsIgnoreCase(column.jspTag)) {%>
-                    <dict-select v-model="formSearch.${column.dataName}" :selectList="selectList" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
+                    <%-- <dict-select v-model="formSearch.${column.dataName}" :selectList="selectList" placeholder="请选择${column.cnname}" :clearable="true"></dict-select> --%>
+                    <dict-select v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
                 <%} else if ("DateTime".equalsIgnoreCase(column.jspTag) ){%>
                     <dict-date-picker v-model="formSearch.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
                 <%} else {%>
@@ -69,16 +70,17 @@
                 searchParam['page'] = this.pc.currentPageNo
                 console.log('查询参数:', searchParam)
                 this.loadSelect()
-                api.getList({
-                    p: this.pageNum_select,
-                    s: this.pageCount_select
-                }).then(res => {
-                    console.log(res)
-                    if(res.data.success){
-                        this.tableData = []
-                        this.pc = res.data.pc
-                    }
-                })
+                // 列表
+                // api.getList({
+                //     p: this.pageNum_select,
+                //     s: this.pageCount_select
+                // }).then(res => {
+                //     console.log(res)
+                //     if(res.data.success){
+                //         this.tableData = []
+                //         this.pc = res.data.pc
+                //     }
+                // })
             },
             loadSelect () {
                 dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {

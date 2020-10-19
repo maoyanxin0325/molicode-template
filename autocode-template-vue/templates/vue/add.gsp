@@ -16,7 +16,7 @@
 							<Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
 								<% if(column.jspTag == 'SELECT'){%>
 									<dict-select v-model="formData.${column.dataName}" :selectList="selectList" placeholder="请选择${column.cnname}" :clearable="true"></dict-select>
-								<%} else if(column.jspTag == 'DATETIME'){%>
+								<%} else if(column.jspTag == 'DATETIME' || column.jspTag == 'DATE'){%>
 									<dict-date-picker v-model="formData.${column.dataName}" placeholder="请选择${column.cnname}" @change="dateChange"></dict-date-picker>
 								<%} else if(column.jspTag == 'RADIO'){%>
 									<dict-radio v-model="formData.${column.dataName}" :radioList="radioList"></dict-radio>
@@ -138,7 +138,7 @@
 											this.$Message.warning('请完善表单信息')
                     	return false
                 		} else {
-
+											console.log(this.formData)
 										}
 								})
             },
