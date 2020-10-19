@@ -44,8 +44,8 @@
     import dictSelect from '@/components/molicode/DictSelect'
     import dictDatePicker from '@/components/molicode/DictDatePicker'
     import * as util from '@/libs/renderUtil.js'
-    import constants from '@/constants/constants'
     import * as dictionary from '@/api/dictionary'
+    import constants from '@/constants/constants'
     import tableDefine from './tableDefine.js'
     import page from '@/components/mixin/page'
 
@@ -69,17 +69,19 @@
                 searchParam['page'] = this.pc.currentPageNo
                 console.log('查询参数:', searchParam)
                 this.loadSelect()
-                api.getList({
-                    p: this.pageNum_select,
-                    s: this.pageCount_select
-                }).then(res => {
-                    console.log(res)
-                    if(res.data.success){
-                        this.tableData = []
-                        this.pc = res.data.pc
-                    }
-                })
+                // 列表
+                // api.getList({
+                //     p: this.pageNum_select,
+                //     s: this.pageCount_select
+                // }).then(res => {
+                //     console.log(res)
+                //     if(res.data.success){
+                //         this.tableData = []
+                //         this.pc = res.data.pc
+                //     }
+                // })
             },
+            // Select || Radio || Checkbox
             loadSelect () {
                 dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
                     if (res.data.code === 200) {
