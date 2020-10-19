@@ -93,7 +93,6 @@
 								id: '0',
                 formData: formData,
                 formRules: validateSet,
-               // formRules: constants.rules.${varDomainName}.add,
                 showModal: false,
                 loading: false,
 								disableInput: false,
@@ -105,7 +104,6 @@
         methods:{
 						load (id) {
 							this.loadSelect()
-							// edit
 							if (id) {
 								this.id = id
 								api.getId({ id: id}).then(res => {
@@ -114,12 +112,10 @@
 									}
 								})
 							}
-							// add
 							else {
 								this.formData = formData
 							}
 						},
-            // Select || Radio || Checkbox
 						loadSelect () {
 							dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
 								if (res.data.code === 200) {
