@@ -42,7 +42,6 @@
 		import dictRadio from '@/components/molicode/DictRadio'
 		import dictSelect from '@/components/molicode/DictSelect'
 		import dictDatePicker from '@/components/molicode/DictDatePicker'
-    import constants from '@/constants/constants'
 		import * as dictionary from '@/api/dictionary'
     var validateSet = {
 <%
@@ -105,17 +104,19 @@
 						load (id) {
 							this.loadSelect()
 							if (id) {
+								// edit
 								this.id = id
 								api.getId({ id: id}).then(res => {
 									if(res.data.success){
 										this.formData = res.data.data
 									}
 								})
-							}
-							else {
+							}else {
+								// add
 								this.formData = formData
 							}
 						},
+						// Select || Checkbox || Radio
 						loadSelect () {
 							dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
 								if (res.data.code === 200) {

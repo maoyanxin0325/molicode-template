@@ -68,17 +68,19 @@
                 searchParam['page'] = this.pc.currentPageNo
                 console.log('查询参数:', searchParam)
                 this.loadSelect()
-                api.getList({
-                    p: this.pageNum_select,
-                    s: this.pageCount_select
-                }).then(res => {
-                    console.log(res)
-                    if(res.data.success){
-                        this.tableData = []
-                        this.pc = res.data.pc
-                    }
-                })
+                // 获取table列表
+                // api.getList({
+                //     p: this.pageNum_select,
+                //     s: this.pageCount_select
+                // }).then(res => {
+                //     console.log(res)
+                //     if(res.data.success){
+                //         this.tableData = []
+                //         this.pc = res.data.pc
+                //     }
+                // })
             },
+            // Select || Checkbox || Radio
             loadSelect () {
                 dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
                     if (res.data.code === 200) {
