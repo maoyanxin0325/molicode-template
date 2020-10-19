@@ -23,7 +23,8 @@
 								<%} else if(column.jspTag == 'CHECKBOX'){%>
 									<dict-checkbox v-model="formData.${column.dataName}" :checkboxList="checkboxList"></dict-checkbox>
 								<%} else {%>
-									<Input v-model="formData.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
+									<Input v-model="formData.${column.dataName}" class="${column.columnType == 'INT' ? 'clearArrow' : ''}"  :maxlength="${column.length}" 
+									type="${column.columnType == 'INT' ? 'number' : 'text'}" :number="${column.columnType == 'INT' ? true : false}" :disabled="disableInput"></Input>
 								<%}%>
 							</Form-item>
 						</Col>
@@ -49,16 +50,14 @@
 		 	int i=0;
 			columns.each{
 			  def column=it;
-			  if(tableModel.isNotInList('addList',column.columnName)){
-				return ;
-			  }
+			  if(tableModel.isNotInList('addList',column.columnName)){ return ;}
 			  if(column.getIsPK()){
 			  	i++;
-				return ;
+					return ;
 			  }
 		    print "\t"+snippetTemplateUtil.getTemplate(column,'form_rule_item_vue');
-		 	i++;
-			if(i<listSize) println ',';
+				i++;
+				if(i<listSize) println ',';
 		}
 		%>
     }
@@ -104,15 +103,15 @@
 						load (id) {
 							this.loadSelect()
 							if (id) {
-								// edit
+								// 编辑
 								this.id = id
-								api.getId({ id: id}).then(res => {
-									if(res.data.success){
-										this.formData = res.data.data
-									}
-								})
+								// api.getId({ id: id}).then(res => {
+								// 	if(res.data.success){
+								// 		this.formData = res.data.data
+								// 	}
+								// })
 							}else {
-								// add
+								// 新增
 								this.formData = formData
 							}
 						},
@@ -134,6 +133,7 @@
 							})
 						},
             save () {
+								console.log(this.formData)
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
 											this.\$Message.warning('请完善表单信息')
