@@ -104,21 +104,19 @@
         methods:{
 						load (id) {
 							this.loadSelect()
-							// edit
 							if (id) {
 								this.id = id
-								// api.getId({ id: id}).then(res => {
-								// 	if(res.data.success){
-								// 		this.formData = res.data.data
-								// 	}
-								// })
+								api.getId({ id: id}).then(res => {
+									if(res.data.success){
+										this.formData = res.data.data
+									}
+								})
 							}
 							// add
 							else {
 								this.formData = formData
 							}
 						},
-						// Select || Radio || Checkbox
 						loadSelect () {
 							dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
 								if (res.data.code === 200) {
@@ -141,11 +139,7 @@
 											this.$Message.warning('请完善表单信息')
                     	return false
                 		} else {
-											// requestUtils.postSubmit(this, constants.urls.${urlPrefix}.add, this.formData, function (data) {
-											// 		this.\$Message.success('保存成功~')
-											// 		this.showModal = false
-											// 		this.\$emit(constants.actions.common.refreshList)
-											// })
+
 										}
 								})
             },
