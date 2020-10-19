@@ -15,18 +15,18 @@
                     if(column.getIsPK()){%>
                 <Row>
                     <Col span="24">
-                    <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
-                        <Input v-model="formItems.${column.dataName}" :maxlength="${column.length}" :disabled="true"></Input>
-                    </Form-item>
-                </Col>
+                        <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
+                            <Input v-model="formItems.${column.dataName}" :maxlength="${column.length}" :disabled="true"></Input>
+                        </Form-item>
+                    </Col>
                 </Row>
                 <%}else{%>  
                 <Row>
                     <Col span="24">
-                    <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
-                        <Input v-model="formItems.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
-                    </Form-item>
-                </Col>
+                        <Form-item label="${column.cnname}" prop="${column.dataName}" style="width: 90%">
+                            <Input v-model="formItems.${column.dataName}" :maxlength="${column.length}" :disabled="disableInput"></Input>
+                        </Form-item>
+                    </Col>
                 </Row>
                 <%
                     }
