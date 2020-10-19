@@ -135,7 +135,7 @@
             save () {
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
-											this.$Message.warning('请完善表单信息')
+											this.\$Message.warning('请完善表单信息')
                     	return false
                 		} else {
 											console.log(this.formData)

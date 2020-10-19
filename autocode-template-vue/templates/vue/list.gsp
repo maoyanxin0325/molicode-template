@@ -45,7 +45,6 @@
     import dictDatePicker from '@/components/molicode/DictDatePicker'
     import * as dictionary from '@/api/dictionary'
     import * as util from '@/libs/renderUtil'
-    import constants from '@/constants/constants'
     import tableDefine from './tableDefine'
     import page from '@/components/mixin/page'
 
@@ -103,7 +102,6 @@
                 this.\$refs.editModal.load(row.id)
             },
             del (row) {
-                let params = { 'primaryKey': row.id }
                 this.\$Modal.confirm({
                     title: '删除确认',
                     content: '您确定要执行删除操作吗？',
