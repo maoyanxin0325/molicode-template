@@ -106,9 +106,9 @@
 								// 编辑 (调用get接口)
 								this.id = id
 								// api.getId(id).then(res => {
-								// 	if(res.data.success){
-								// 		this.formData = res.data.data
-								// 	}
+								// if(res.data.success){
+								// this.formData = res.data.data
+								// }
 								// })
 							} else {
 								// 新增

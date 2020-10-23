@@ -74,7 +74,7 @@
 
                 // 加载Select || Checkbox || Radio 列表
                 this.loadSelect()
-                
+
                 // 获取table组件的列表tableData
                 // api.getList({
                 //     p: this.pageNum_select,
@@ -89,9 +89,9 @@
             },
             // Select || Checkbox || Radio 列表
             loadSelect () {
-                this.$Spin.show()
+                this.\$Spin.show()
                 dictionary.getDicts('sys_user_sex').then(res => {
-                    this.$Spin.hide()
+                    this.\$Spin.hide()
                     if (res.data.code === 100200) {
                         this.selectList = array
                     }
