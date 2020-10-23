@@ -26,7 +26,7 @@
         </div>
 		<add ref="editModal" @refreshList="load()"></add>
 
-		<Table border :columns="columns" :data="data" :loading="loading" style="margin-top: 30px">
+		<Table border :columns="tableTitle" :data="tableData" :loading="loading" style="margin-top: 30px">
             <template slot-scope="{ row, index }" slot="operateSlot">
                 <Button type="primary" size="small" @click="edit(row)" style="margin-right: 10px">修改</Button>
                 <Button type="error" size="small" @click="del(row)">删除</Button>
@@ -43,7 +43,7 @@
     import add from './add.vue'
     import dictSelect from '@/components/molicode/DictSelect'
     import dictDatePicker from '@/components/molicode/DictDatePicker'
-    import * as dictionary from '@/api/dictionary'
+    import * as dictionary from '@/api/system/dict/data'
     import * as util from '@/libs/renderUtil'
     import tableDefine from './tableDefine'
     import page from '@/components/mixin/page'
@@ -57,18 +57,25 @@
         mixins: [tableDefine, page],
         data (){
             return {
-                data: [],
+                tableData: [],
                 selectList: []
             }
         },
+        mounted() {
+            this.load()
+        },
         methods: {
             load () {
+                // 调用util中方法处理参数
                 let searchParam = util.searchParmasHandle(this.formSearch)
                 searchParam['pageSize'] = this.pc.total
                 searchParam['page'] = this.pc.currentPageNo
-                console.log('查询参数:', searchParam)
+                console.log('查询参数searchParam:', searchParam)
+
+                // 加载Select || Checkbox || Radio 列表
                 this.loadSelect()
-                // 获取table列表
+                
+                // 获取table组件的列表tableData
                 // api.getList({
                 //     p: this.pageNum_select,
                 //     s: this.pageCount_select
@@ -80,38 +87,37 @@
                 //     }
                 // })
             },
-            // Select || Checkbox || Radio
+            // Select || Checkbox || Radio 列表
             loadSelect () {
-                dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
-                    if (res.data.code === 200) {
-                        let array = []
-                        res.data.rows.map(item => {
-                            array.push({
-                                value: item.dictValue,
-                                label: item.dictLabel
-                            })
-                        })
+                this.$Spin.show()
+                dictionary.getDicts('sys_user_sex').then(res => {
+                    this.$Spin.hide()
+                    if (res.data.code === 100200) {
                         this.selectList = array
                     }
                 })
             },
+            // 新增按钮
             add () {
                 this.\$refs.editModal.showModal = true
                 this.\$refs.editModal.load()
             },
+            // 修改按钮
             edit (row) {
                 this.\$refs.editModal.showModal = true
                 this.\$refs.editModal.load(row.id)
             },
+            // 删除按钮
             del (row) {
                 this.\$Modal.confirm({
                     title: '删除确认',
                     content: '您确定要执行删除操作吗？',
                     onOk: () => {
-
+                        // 调用接口
                     }
                 })
             },
+            // 监听日期选择
             dateChange (params) {
                 Object.assign(this.formSearch, params)
             }

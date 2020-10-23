@@ -43,7 +43,7 @@
 		import dictRadio from '@/components/molicode/DictRadio'
 		import dictSelect from '@/components/molicode/DictSelect'
 		import dictDatePicker from '@/components/molicode/DictDatePicker'
-		import * as dictionary from '@/api/dictionary'
+    import * as dictionary from '@/api/system/dict/data'
     var validateSet = {
 <%
 			def listSize=tableModel.listSize('addList');
@@ -103,35 +103,29 @@
 						load (id) {
 							this.loadSelect()
 							if (id) {
-								// 编辑
+								// 编辑 (调用get接口)
 								this.id = id
-								// api.getId({ id: id}).then(res => {
+								// api.getId(id).then(res => {
 								// 	if(res.data.success){
 								// 		this.formData = res.data.data
 								// 	}
 								// })
-							}else {
+							} else {
 								// 新增
 								this.formData = formData
 							}
 						},
-						// Select || Checkbox || Radio
+						// Select || Checkbox || Radio 列表
 						loadSelect () {
-							dictionary.getList({ dictType: 'sys_user_sex' }).then(res => {
-								if (res.data.code === 200) {
-									let array = []
-									res.data.rows.map(item => {
-										array.push({
-											value: item.dictValue,
-											label: item.dictLabel
-										})
-									})
-									this.selectList = array
-									this.checkboxList = array
-									this.radioList = array
+							dictionary.getDicts('sys_user_sex').then(res => {
+								if (res.data.code === 100200) {
+									// this.selectList = array
+									// this.checkboxList = array
+									// this.radioList = array
 								}
 							})
 						},
+						// 保存
             save () {
 								console.log(this.formData)
                 this.\$refs['formItems'].validate((valid) => {
@@ -139,14 +133,17 @@
 											this.\$Message.warning('请完善表单信息')
                     	return false
                 		} else {
+											// 调用post接口
 											console.log(this.formData)
 										}
 								})
-            },
+						},
+						// 关闭
 						cancel () {
 							this.\$refs['formItems'].resetFields()
 							this.showModal = false
 						},
+						// 监听时间选择
 						dateChange (params) {
 							Object.assign(this.formData, params)
 						}

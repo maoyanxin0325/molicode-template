@@ -35,7 +35,7 @@ let tableDefine = {
   data() {
       return {
           loading: false,
-          columns: [
+          tableTitle: [
             <%
               columns.each{
                 def column=it
@@ -111,9 +111,6 @@ let tableDefine = {
           searchFormRules: searchFormRules,
           constants
       }
-  },
-  mounted() {
-      this.load()
   }
 }
 export default tableDefine
