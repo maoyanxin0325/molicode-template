@@ -89,11 +89,9 @@
             },
             // Select || Checkbox || Radio 列表
             loadSelect () {
-                this.\$Spin.show()
                 dictionary.getDicts('sys_user_sex').then(res => {
-                    this.\$Spin.hide()
                     if (res.data.code === 100200) {
-                        this.selectList = array
+                        this.selectList = res.data.data
                     }
                 })
             },

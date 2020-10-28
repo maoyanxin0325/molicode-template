@@ -119,15 +119,14 @@
 						loadSelect () {
 							dictionary.getDicts('sys_user_sex').then(res => {
 								if (res.data.code === 100200) {
-									// this.selectList = array
-									// this.checkboxList = array
-									// this.radioList = array
+									// this.selectList = res.data.data
+									// this.checkboxList = res.data.data
+									// this.radioList = res.data.data
 								}
 							})
 						},
 						// 保存
             save () {
-								console.log(this.formData)
                 this.\$refs['formItems'].validate((valid) => {
                     if (!valid) {
 											this.\$Message.warning('请完善表单信息')
